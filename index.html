@@ -180,41 +180,51 @@
             }
         }
         
-        /* RESPONSIVE ADJUSTMENTS (FIXING MOBILE ISSUES) */
+        /* === CRITICAL MOBILE RESPONSIVENESS FIXES (MAX-WIDTH 768px) === */
         @media (max-width: 768px) {
             
+            section {
+                /* Ensure sections use full width and maintain vertical spacing */
+                padding: 5rem 0.5rem 1rem;
+            }
+
             /* Ensures content stacks and is contained */
             .content-wrapper {
                 flex-direction: column;
                 gap: 2rem;
                 text-align: center;
+                max-width: 100%; /* Force full width */
+                width: 100%;
             }
-            
-            /* Image on mobile */
+
+            /* Image container adjustments for fluid mobile display */
             .image-container {
-                height: 40vh;
-                width: 90%;
-                margin: 0 auto;
+                height: 35vh; /* Sufficient height but less dominant */
+                width: 100%; /* Force full width within section padding */
+                margin: 0;
+                border-radius: 0.75rem; /* Reduced rounding for mobile flow */
                 order: 1; 
             }
             
             /* Text content on mobile */
             .content {
-                padding: 1rem;
+                padding: 1rem 0; /* Reduced horizontal padding to use more screen space */
                 order: 2; 
             }
             
-            /* FONT SIZE FIXES FOR SMALL SCREENS */
+            /* FONT SIZE FIXES FOR SMALL SCREENS (Aggressive scaling for visibility) */
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem; /* Large headings */
             }
             
             .subtitle {
-                font-size: 1.25rem;
+                font-size: 1.4rem; /* Prominent subtitle */
             }
             
             .animated-text {
-                font-size: 1rem;
+                font-size: 1.1rem; /* Highly readable body text */
+                text-align: left; /* Essential for comfortable reading */
+                padding: 0 0.5rem; 
             }
             
             /* Navigation adjustments */
@@ -276,7 +286,7 @@
     <section id="home">
         <div class="bg-container">
             <div class="overlay"></div>
-            <!-- Restored original image paths. Using generic fallback text. -->
+            <!-- Restored original image paths -->
             <img src="1.jfif" class="bg-image active" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/222/fff?text=Background+Image+1';">
             <img src="3.jpg" class="bg-image" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/333/fff?text=Background+Image+2';">
             <img src="8.jpg" class="bg-image" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/111/fff?text=Background+Image+3';">
