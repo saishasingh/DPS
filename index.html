@@ -15,6 +15,7 @@
         }
 
         html {
+            /* Enable smooth scroll behavior when clicking anchor tags */
             scroll-behavior: smooth;
         }
         
@@ -129,13 +130,13 @@
             color: lightgray;
         }
         
-        /* ANIMATED TEXT */
+        /* ANIMATED TEXT - Initial invisible state */
         .animated-text {
             line-height: 1.8;
             font-size: 1.15rem;
             margin: 1.5rem 0;
-            opacity: 0;
-            transform: translateX(-100%);
+            opacity: 0; /* Hidden by default */
+            transform: translateX(-100%); /* Off-screen by default */
             color: white;
         }
 
@@ -184,46 +185,42 @@
         @media (max-width: 768px) {
             
             section {
-                /* Ensure sections use full width and maintain vertical spacing */
                 padding: 5rem 0.5rem 1rem;
             }
 
-            /* Ensures content stacks and is contained */
             .content-wrapper {
                 flex-direction: column;
                 gap: 2rem;
                 text-align: center;
-                max-width: 100%; /* Force full width */
+                max-width: 100%;
                 width: 100%;
             }
 
-            /* Image container adjustments for fluid mobile display */
             .image-container {
-                height: 35vh; /* Sufficient height but less dominant */
-                width: 100%; /* Force full width within section padding */
+                height: 35vh;
+                width: 100%;
                 margin: 0;
-                border-radius: 0.75rem; /* Reduced rounding for mobile flow */
+                border-radius: 0.75rem;
                 order: 1; 
             }
             
-            /* Text content on mobile */
             .content {
-                padding: 1rem 0; /* Reduced horizontal padding to use more screen space */
+                padding: 1rem 0;
                 order: 2; 
             }
             
-            /* FONT SIZE FIXES FOR SMALL SCREENS (Aggressive scaling for visibility) */
+            /* FONT SIZE FIXES FOR SMALL SCREENS */
             h1 {
-                font-size: 2.5rem; /* Large headings */
+                font-size: 2.5rem;
             }
             
             .subtitle {
-                font-size: 1.4rem; /* Prominent subtitle */
+                font-size: 1.4rem;
             }
             
             .animated-text {
-                font-size: 1.1rem; /* Highly readable body text */
-                text-align: left; /* Essential for comfortable reading */
+                font-size: 1.1rem;
+                text-align: left; /* Ensures better readability on mobile */
                 padding: 0 0.5rem; 
             }
             
@@ -263,19 +260,20 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <!-- Added class 'nav-anchor' for JavaScript targeting -->
+                        <a class="nav-link nav-anchor" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#main-content">Ripple Effects</a>
+                        <a class="nav-link nav-anchor" href="#main-content">Ripple Effects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#middle-main">Economic Ripple effects</a>
+                        <a class="nav-link nav-anchor" href="#middle-main">Economic Ripple effects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#lower-main">Societal impacts</a>
+                        <a class="nav-link nav-anchor" href="#lower-main">Societal impacts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#creators">Conclusion</a>
+                        <a class="nav-link nav-anchor" href="#creators">Conclusion</a>
                     </li>
                 </ul>
             </div>
@@ -295,7 +293,8 @@
             <div class="content">
                 <H1>ENVIRONMENTAL RIPPLE EFFECTS</H1>
                 <p class="subtitle">Let us understand how environmental change is affecting our daily life</p>
-                <a href="#main-content" class="btn">EXPLORE MORE</a>
+                <!-- These text elements are part of the animated group -->
+                <a href="#main-content" class="btn animated-text">EXPLORE MORE</a>
             </div>
         </div>
     </section>
@@ -312,7 +311,7 @@
                     <p class="animated-text">Warmer air and intense heat lead to more frequent droughts, waves, floods & hurricanes across different regions, creating devastating human and environmental costs.</p>
                     <p class="animated-text">Shifts in temperature and rain alter the geographic distribution of plant and animal kingdoms and the timing of their lifecycles, leading to ecosystem imbalances and critical biodiversity loss.</p>
                     <p class="animated-text">The ocean absorbs a significant amount of excess carbon dioxide from the atmosphere, making it progressively more acidic. This ocean acidification damages marine life, especially coral reefs and shellfish.</p>
-                    <a href="#middle-main" class="btn">MORE</a>
+                    <a href="#middle-main" class="btn animated-text">MORE</a>
                 </div>
             </div>
         </div>
@@ -330,7 +329,7 @@
                     <p class="animated-text">Changes in weather patterns, water scarcity, and the spread of disease reduce crop yields, directly impacting global food security, supply chains, and the livelihoods of farmers worldwide.</p>
                     <p class="animated-text">Existing infrastructure—from roads and bridges to power grids and water supply—was not designed for extreme climate events. This leads to costly damage, disruptions, and expensive repairs and upgrades.</p>
                     <p class="animated-text">Rising temperatures and prolonged heat waves make productive work more difficult and dangerous, leading to decreased labor capacity and efficiency across multiple outdoor and industrial sectors.</p>
-                    <a href="#lower-main" class="btn">MORE</a>
+                    <a href="#lower-main" class="btn animated-text">MORE</a>
                 </div>
             </div>
         </div>
@@ -348,7 +347,7 @@
                     <p class="animated-text">Climate-driven declines in agricultural productivity and water availability are major drivers of global hunger and malnutrition, disproportionately affecting vulnerable communities and exacerbating inequality.</p>
                     <p class="animated-text">Climate change increases health risks through various pathways, including the spread of vector-borne diseases to new areas, increased heat-related illnesses, and psychological trauma from disasters.</p>
                     <p class="animated-text">Extreme weather events and environmental degradation force millions of people to leave their homes, leading to large-scale migration and putting severe pressure on resources and existing social systems in new locations.</p>
-                    <a href="#creators" class="btn">MORE</a>
+                    <a href="#creators" class="btn animated-text">MORE</a>
                 </div>
             </div>
         </div>
@@ -362,7 +361,7 @@
                 <p class="animated-text">
                     The cascading effects of climate change create a complex web of interconnected problems that fundamentally reshape societies and the planet, highlighting the urgent need for global cooperation and decisive action.
                 </p>
-                <a href="#home" class="btn">BACK</a>
+                <a href="#home" class="btn animated-text">BACK</a>
             </div>
         </div>
     </section>
@@ -376,65 +375,77 @@
         // Background image rotation
         setInterval(() => {
             const active = document.querySelector('#home .bg-image.active');
-            active.classList.remove('active');
-            const next = active.nextElementSibling && active.nextElementSibling.classList.contains('bg-image')
-                ? active.nextElementSibling 
-                : document.querySelector('#home .bg-image');
-            next.classList.add('active');
+            if (active) {
+                active.classList.remove('active');
+                const next = active.nextElementSibling && active.nextElementSibling.classList.contains('bg-image')
+                    ? active.nextElementSibling 
+                    : document.querySelector('#home .bg-image');
+                if (next) {
+                    next.classList.add('active');
+                }
+            }
         }, 3000);
 
-        // Reset animation state
+        // Resets the animated text elements for a given section ID
         function resetAnimation(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach(el => {
+                // Remove existing animation styles
                 el.style.animation = 'none';
+                
+                // Force a browser reflow (necessary to apply reset styles before starting the new animation)
+                void el.offsetWidth;
+
+                // Set initial hidden state (which is defined in the CSS, but explicit reset helps)
                 el.style.opacity = '0';
                 el.style.transform = 'translateX(-100%)';
-                void el.offsetWidth;
             });
         }
 
-        // Trigger animation with stagger
+        // Triggers the animation with a staggered delay
         function animate(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach((el, i) => {
+                // Apply a delay based on the index (i * 400ms)
                 setTimeout(() => {
                     el.style.animation = 'slideLeft 1s forwards';
                 }, i * 400);
             });
         }
 
-        // Add click event listeners to navigation links and buttons
+        // --- Refactored Animation and Navigation Logic ---
+        // Target all anchor tags that start with # (both buttons and navbar links)
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', (e) => {
                 const targetId = a.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
                 
-                if (targetId) {
+                if (targetId && targetSection) {
                     e.preventDefault(); 
-                }
-
-                // Simple mechanism to detect when the scroll finishes (or use a timeout as a proxy)
-                setTimeout(() => {
-                    // Reset all animations across the page
-                    document.querySelectorAll('section').forEach(section => {
-                        resetAnimation(section.id);
-                        section.classList.remove('active-section');
-                    });
                     
-                    // Activate new section
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.classList.add('active-section');
+                    // 1. Scroll to the section
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // 2. Hide the mobile menu on click (Bootstrap specific fix)
+                    const navbarCollapse = document.getElementById('navbarNav');
+                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                        new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
                     }
 
-                    // Trigger animation for the target section
-                    animate(targetId);
-                }, 500);
+                    // 3. Reset and start the animation for the TARGET section only
+                    // A small delay (300ms) ensures the scroll is well underway before animation starts
+                    setTimeout(() => {
+                        resetAnimation(targetId); 
+                        animate(targetId);
+                    }, 300); 
+                }
             });
         });
 
         // Initial load animation for the home section
         document.addEventListener('DOMContentLoaded', () => {
-            animate('home');
-            document.getElementById('home').classList.add('active-section');
+            // Wait a moment after DOM load to ensure CSS and initial layout are ready
+            setTimeout(() => {
+                animate('home');
+            }, 100);
         });
     </script>
 </body>
