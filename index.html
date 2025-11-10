@@ -172,10 +172,23 @@
             .image-container {
                 height: 40vh;
                 width: 100%;
+                order: 1; /* Image comes first on mobile */
+            }
+            
+            .content {
+                order: 2; /* Text comes second on mobile */
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.5rem; /* Increased font size for mobile */
+            }
+            
+            .subtitle {
+                font-size: 1.4rem; /* Increased subtitle font size */
+            }
+            
+            .animated-text {
+                font-size: 1.2rem; /* Increased text font size */
             }
             
             .navbar-nav {
@@ -185,6 +198,17 @@
             .navbar-nav .nav-link {
                 margin: 0.3rem 0;
                 display: inline-block;
+            }
+        }
+        
+        /* For larger screens, keep the original order */
+        @media (min-width: 769px) {
+            .image-container {
+                order: 1; /* Image on the left */
+            }
+            
+            .content {
+                order: 2; /* Text on the right */
             }
         }
     </style>
