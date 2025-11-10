@@ -130,14 +130,32 @@
             color: lightgray;
         }
         
-        /* ANIMATED TEXT - Initial invisible state */
+        /* ANIMATED TEXT - Text is visible by default now */
         .animated-text {
             line-height: 1.8;
             font-size: 1.15rem;
             margin: 1.5rem 0;
-            opacity: 0; /* Hidden by default */
-            transform: translateX(-100%); /* Off-screen by default */
             color: white;
+            /* Added transition for smooth reset before animation */
+            transition: opacity 0.3s, transform 0.3s; 
+        }
+
+        /* NEW CLASS: Sets the initial state for animation (hidden and off-screen) */
+        .animate-start {
+            opacity: 0 !important; 
+            transform: translateX(-100%) !important;
+        }
+
+        /* KEYFRAMES */
+        @keyframes slideLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         /* BUTTONS */
@@ -169,17 +187,6 @@
             z-index: 999;
         }
         
-        /* KEYFRAMES */
-        @keyframes slideLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
         
         /* === CRITICAL MOBILE RESPONSIVENESS FIXES (MAX-WIDTH 768px) === */
         @media (max-width: 768px) {
@@ -260,20 +267,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <!-- Added class 'nav-anchor' for JavaScript targeting -->
-                        <a class="nav-link nav-anchor" href="#home">Home</a>
+                        <a class="nav-link" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-anchor" href="#main-content">Ripple Effects</a>
+                        <a class="nav-link" href="#main-content">Ripple Effects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-anchor" href="#middle-main">Economic Ripple effects</a>
+                        <a class="nav-link" href="#middle-main">Economic Ripple effects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-anchor" href="#lower-main">Societal impacts</a>
+                        <a class="nav-link" href="#lower-main">Societal impacts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-anchor" href="#creators">Conclusion</a>
+                        <a class="nav-link" href="#creators">Conclusion</a>
                     </li>
                 </ul>
             </div>
@@ -386,63 +392,74 @@
             }
         }, 3000);
 
-        // Resets the animated text elements for a given section ID
-        function resetAnimation(id) {
+        // Adds the reset class to prepare for animation
+        function prepareForAnimation(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach(el => {
-                // Remove existing animation styles
-                el.style.animation = 'none';
-                
-                // Force a browser reflow (necessary to apply reset styles before starting the new animation)
+                // 1. Ensure any running animation is stopped
+                el.style.animation = 'none'; 
+                // 2. Add the class that sets opacity: 0 and translateX(-100%)
+                el.classList.add('animate-start');
+                // 3. Force reflow
                 void el.offsetWidth;
-
-                // Set initial hidden state (which is defined in the CSS, but explicit reset helps)
-                el.style.opacity = '0';
-                el.style.transform = 'translateX(-100%)';
             });
         }
 
         // Triggers the animation with a staggered delay
         function animate(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach((el, i) => {
-                // Apply a delay based on the index (i * 400ms)
+                // 1. Remove the reset class immediately
+                el.classList.remove('animate-start');
+
+                // 2. Apply animation after a staggered delay
                 setTimeout(() => {
                     el.style.animation = 'slideLeft 1s forwards';
                 }, i * 400);
             });
         }
 
-        // --- Refactored Animation and Navigation Logic ---
-        // Target all anchor tags that start with # (both buttons and navbar links)
+        // --- Core Navigation and Animation Logic ---
+        function handleNavigation(targetId) {
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetId && targetSection) {
+                // 1. Scroll to the section
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // 2. Hide the mobile menu on click (Bootstrap specific fix)
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                    new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
+                }
+
+                // 3. Prepare and Run Animation
+                // We run prepareForAnimation immediately to hide the text
+                prepareForAnimation(targetId); 
+                
+                // We use a small delay (300ms) before starting the slide-in animation 
+                // to make sure the user has started scrolling to the new section.
+                setTimeout(() => {
+                    animate(targetId);
+                }, 300); 
+            }
+        }
+
+        // Event listeners for all anchor tags
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', (e) => {
                 const targetId = a.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                
-                if (targetId && targetSection) {
-                    e.preventDefault(); 
-                    
-                    // 1. Scroll to the section
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                    
-                    // 2. Hide the mobile menu on click (Bootstrap specific fix)
-                    const navbarCollapse = document.getElementById('navbarNav');
-                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                        new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
-                    }
-
-                    // 3. Reset and start the animation for the TARGET section only
-                    // A small delay (300ms) ensures the scroll is well underway before animation starts
-                    setTimeout(() => {
-                        resetAnimation(targetId); 
-                        animate(targetId);
-                    }, 300); 
-                }
+                e.preventDefault(); 
+                handleNavigation(targetId);
             });
         });
 
         // Initial load animation for the home section
         document.addEventListener('DOMContentLoaded', () => {
-            // Wait a moment after DOM load to ensure CSS and initial layout are ready
+            // Because the text is visible by default now, we only apply the 
+            // animation if we want the initial slide-in effect.
+            // If you want the text to just appear without animation on load, remove this block.
+            
+            // To animate on load:
+            prepareForAnimation('home');
             setTimeout(() => {
                 animate('home');
             }, 100);
