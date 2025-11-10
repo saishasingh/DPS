@@ -130,7 +130,7 @@
             color: lightgray;
         }
         
-        /* ANIMATED TEXT - Text is visible by default now */
+        /* ANIMATED TEXT - Text is visible by default */
         .animated-text {
             line-height: 1.8;
             font-size: 1.15rem;
@@ -140,7 +140,7 @@
             transition: opacity 0.3s, transform 0.3s; 
         }
 
-        /* NEW CLASS: Sets the initial state for animation (hidden and off-screen) */
+        /* CRITICAL NEW CLASS: Sets the initial state for animation (hidden and off-screen) */
         .animate-start {
             opacity: 0 !important; 
             transform: translateX(-100%) !important;
@@ -299,8 +299,8 @@
             <div class="content">
                 <H1>ENVIRONMENTAL RIPPLE EFFECTS</H1>
                 <p class="subtitle">Let us understand how environmental change is affecting our daily life</p>
-                <!-- These text elements are part of the animated group -->
-                <a href="#main-content" class="btn animated-text">EXPLORE MORE</a>
+                <!-- This button is *not* part of the animation group for reliability -->
+                <a href="#main-content" class="btn">EXPLORE MORE</a>
             </div>
         </div>
     </section>
@@ -317,7 +317,7 @@
                     <p class="animated-text">Warmer air and intense heat lead to more frequent droughts, waves, floods & hurricanes across different regions, creating devastating human and environmental costs.</p>
                     <p class="animated-text">Shifts in temperature and rain alter the geographic distribution of plant and animal kingdoms and the timing of their lifecycles, leading to ecosystem imbalances and critical biodiversity loss.</p>
                     <p class="animated-text">The ocean absorbs a significant amount of excess carbon dioxide from the atmosphere, making it progressively more acidic. This ocean acidification damages marine life, especially coral reefs and shellfish.</p>
-                    <a href="#middle-main" class="btn animated-text">MORE</a>
+                    <a href="#middle-main" class="btn">MORE</a>
                 </div>
             </div>
         </div>
@@ -335,7 +335,7 @@
                     <p class="animated-text">Changes in weather patterns, water scarcity, and the spread of disease reduce crop yields, directly impacting global food security, supply chains, and the livelihoods of farmers worldwide.</p>
                     <p class="animated-text">Existing infrastructure—from roads and bridges to power grids and water supply—was not designed for extreme climate events. This leads to costly damage, disruptions, and expensive repairs and upgrades.</p>
                     <p class="animated-text">Rising temperatures and prolonged heat waves make productive work more difficult and dangerous, leading to decreased labor capacity and efficiency across multiple outdoor and industrial sectors.</p>
-                    <a href="#lower-main" class="btn animated-text">MORE</a>
+                    <a href="#lower-main" class="btn">MORE</a>
                 </div>
             </div>
         </div>
@@ -353,7 +353,7 @@
                     <p class="animated-text">Climate-driven declines in agricultural productivity and water availability are major drivers of global hunger and malnutrition, disproportionately affecting vulnerable communities and exacerbating inequality.</p>
                     <p class="animated-text">Climate change increases health risks through various pathways, including the spread of vector-borne diseases to new areas, increased heat-related illnesses, and psychological trauma from disasters.</p>
                     <p class="animated-text">Extreme weather events and environmental degradation force millions of people to leave their homes, leading to large-scale migration and putting severe pressure on resources and existing social systems in new locations.</p>
-                    <a href="#creators" class="btn animated-text">MORE</a>
+                    <a href="#creators" class="btn">MORE</a>
                 </div>
             </div>
         </div>
@@ -367,7 +367,7 @@
                 <p class="animated-text">
                     The cascading effects of climate change create a complex web of interconnected problems that fundamentally reshape societies and the planet, highlighting the urgent need for global cooperation and decisive action.
                 </p>
-                <a href="#home" class="btn animated-text">BACK</a>
+                <a href="#home" class="btn">BACK</a>
             </div>
         </div>
     </section>
@@ -378,7 +378,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Background image rotation
+        // --- Image Rotation ---
         setInterval(() => {
             const active = document.querySelector('#home .bg-image.active');
             if (active) {
@@ -392,78 +392,82 @@
             }
         }, 3000);
 
-        // Adds the reset class to prepare for animation
+        // --- Animation Functions ---
+
+        // Prepares for animation by forcing the text off-screen and resetting any previous animation.
         function prepareForAnimation(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach(el => {
                 // 1. Ensure any running animation is stopped
                 el.style.animation = 'none'; 
                 // 2. Add the class that sets opacity: 0 and translateX(-100%)
                 el.classList.add('animate-start');
-                // 3. Force reflow
+                // 3. Force reflow to ensure the browser registers the hidden state
                 void el.offsetWidth;
             });
         }
 
-        // Triggers the animation with a staggered delay
+        // Triggers the slide-in animation with a staggered delay.
         function animate(id) {
             document.querySelectorAll(`#${id} .animated-text`).forEach((el, i) => {
-                // 1. Remove the reset class immediately
-                el.classList.remove('animate-start');
-
-                // 2. Apply animation after a staggered delay
+                // Use a very small timeout to ensure the browser has fully registered 
+                // the 'animate-start' class before removing it, fixing the glitch.
                 setTimeout(() => {
-                    el.style.animation = 'slideLeft 1s forwards';
-                }, i * 400);
+                    // 1. Remove the reset class
+                    el.classList.remove('animate-start'); 
+
+                    // 2. Apply animation after a staggered delay
+                    setTimeout(() => {
+                        el.style.animation = 'slideLeft 1s forwards';
+                    }, i * 400);
+                }, 50); 
             });
         }
 
         // --- Core Navigation and Animation Logic ---
         function handleNavigation(targetId) {
-            const targetSection = document.getElementById(targetId);
             
-            if (targetId && targetSection) {
-                // 1. Scroll to the section
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-                
-                // 2. Hide the mobile menu on click (Bootstrap specific fix)
-                const navbarCollapse = document.getElementById('navbarNav');
-                if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                    new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
-                }
+            // Fix for mobile menu closing (Bootstrap specific fix)
+            const navbarCollapse = document.getElementById('navbarNav');
+            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
+            }
 
-                // 3. Prepare and Run Animation
-                // We run prepareForAnimation immediately to hide the text
-                prepareForAnimation(targetId); 
+            // Get the target section element
+            const targetSection = document.getElementById(targetId);
+
+            // We only need to animate if we are moving to a new section below 'home'
+            // and the target section exists.
+            if (targetId && targetSection && targetId !== 'home') {
                 
-                // We use a small delay (300ms) before starting the slide-in animation 
-                // to make sure the user has started scrolling to the new section.
+                // 1. Prepare for animation (hide text immediately before scrolling)
+                prepareForAnimation(targetId); 
+
+                // 2. Run Animation after a delay to allow the scroll to happen visually
                 setTimeout(() => {
                     animate(targetId);
-                }, 300); 
+                }, 500); 
             }
         }
 
-        // Event listeners for all anchor tags
+        // Event listeners for all anchor tags (including the navbar and the section buttons)
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', (e) => {
                 const targetId = a.getAttribute('href').substring(1);
-                e.preventDefault(); 
-                handleNavigation(targetId);
+                
+                // Let the native smooth scroll occur, but trigger the animation logic
+                // e.preventDefault() is removed to fix the non-working links on laptop
+                
+                // We wrap the animation logic in a small timeout to ensure it runs 
+                // AFTER the native scroll event has been processed.
+                setTimeout(() => {
+                    handleNavigation(targetId);
+                }, 50); 
             });
         });
 
-        // Initial load animation for the home section
-        document.addEventListener('DOMContentLoaded', () => {
-            // Because the text is visible by default now, we only apply the 
-            // animation if we want the initial slide-in effect.
-            // If you want the text to just appear without animation on load, remove this block.
-            
-            // To animate on load:
-            prepareForAnimation('home');
-            setTimeout(() => {
-                animate('home');
-            }, 100);
-        });
+        // Initial load behavior: 
+        // We *do not* call prepareForAnimation('home') or animate('home') here, 
+        // allowing the text to be instantly visible on page load.
     </script>
 </body>
 </html>
